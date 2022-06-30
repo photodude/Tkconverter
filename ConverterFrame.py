@@ -27,7 +27,7 @@ class ConverterFrame(ttk.Frame):
         self.convert_button = ttk.Button(self, text='Convert')
         self.convert_button.grid(column=2, row=0, sticky='w', **options)
         self.convert_button.configure(command=self.convert)
-        container.bind('<Return>', lambda event=None: self.convert)
+        self.bind('<Return>', lambda event=None: self.convert)
 
         # result label
         self.result_label = ttk.Label(self)
