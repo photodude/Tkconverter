@@ -10,6 +10,8 @@ class ConverterFrame(ttk.Frame):
         self.unit_from = unit_from
         self.converter = converter
 
+        self.master.bind('<Return>', lambda event=None: self.enter_key())
+
         # field options
         options = {'padx': 5, 'pady': 0}
 
@@ -27,7 +29,7 @@ class ConverterFrame(ttk.Frame):
         self.convert_button = ttk.Button(self, text='Convert')
         self.convert_button.grid(column=2, row=0, sticky='w', **options)
         self.convert_button.configure(command=self.convert)
-        self.bind('<Return>', lambda event=None: self.convert)
+        # self.convert_button.bind('<Return>', lambda event=None: self.convert)
 
         # result label
         self.result_label = ttk.Label(self)
@@ -49,3 +51,6 @@ class ConverterFrame(ttk.Frame):
     def reset(self):
         self.temperature_entry.delete(0, "end")
         self.result_label.text = ''
+
+    def enter_key(self):
+        self.convert()
