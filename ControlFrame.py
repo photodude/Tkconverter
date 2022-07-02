@@ -34,15 +34,22 @@ class ControlFrame(ttk.LabelFrame):
         self.frames[0] = ConverterFrame(
             container,
             'Fahrenheit',
-            TemperatureConverter.fahrenheit_to_celsius)
+            TemperatureConverter.fahrenheit_to_celsius
+            )
         self.frames[1] = ConverterFrame(
             container,
             'Celsius',
-            TemperatureConverter.celsius_to_fahrenheit)
+            TemperatureConverter.celsius_to_fahrenheit
+            )
 
         self.change_frame()
 
     def change_frame(self):
+        for frame in self.frames.values():
+            frame.reset()
+            frame.grid_remove()
         frame = self.frames[self.selected_value.get()]
         frame.reset()
         frame.tkraise()
+        frame.grid()
+        frame.focus_set()
