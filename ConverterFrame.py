@@ -9,8 +9,11 @@ class ConverterFrame(ttk.Frame):
 
         self.unit_from = unit_from
         self.converter = converter
+        # tag = str(self)
+        # self._add_bindtag(self, tag)
+        # self.bind_class(tag, '<Return>', lambda *args: self.enter_key())
 
-        self.master.bind('<Return>', lambda event=None: self.enter_key())
+        self.master.bind('<Return>', self.convert)
 
         # field options
         options = {'padx': 5, 'pady': 0}
@@ -54,3 +57,10 @@ class ConverterFrame(ttk.Frame):
 
     def enter_key(self):
         self.convert()
+
+    # def _add_bindtag(self, widget, tag):
+    #     bindtags = widget.bindtags()
+    #     if tag not in bindtags:
+    #         widget.bindtags((tag,) + bindtags)
+    #     for child in widget.winfo_children():
+    #         self._add_bindtag(child, tag)
