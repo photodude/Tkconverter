@@ -9,6 +9,7 @@ class ControlFrame(ttk.LabelFrame):
 
         super().__init__(container)
         self['text'] = 'Options'
+        self.container = container
 
         # radio buttons
         self.selected_value = tk.IntVar()
@@ -18,37 +19,47 @@ class ControlFrame(ttk.LabelFrame):
             text='F to C',
             value=0,
             variable=self.selected_value,
-            command=self.change_frame).grid(column=0, row=0, padx=5, pady=5)
+            command=lambda:self.change_frame()).grid(column=0, row=0, padx=5, pady=5)
 
         ttk.Radiobutton(
             self,
             text='C to F',
             value=1,
             variable=self.selected_value,
-            command=self.change_frame).grid(column=1, row=0, padx=5, pady=5)
+            command=lambda:self.change_frame()).grid(column=1, row=0, padx=5, pady=5)
 
         self.grid(column=0, row=1, padx=5, pady=5, sticky='ew')
 
         # initialize frames
         self.frames = {}
+        self.change_frame()
+
+    def f_to_c(self):
         self.frames[0] = ConverterFrame(
-            container,
+            self.container,
             'Fahrenheit',
             TemperatureConverter.fahrenheit_to_celsius
             )
+    def c_to_f(self):
         self.frames[1] = ConverterFrame(
-            container,
+            self.container,
             'Celsius',
             TemperatureConverter.celsius_to_fahrenheit
             )
 
-        self.change_frame()
-
     def change_frame(self):
+        active_frame = self.selected_value.get()
+        if active_frame == 0:
+            self.f_to_c()
+        elif active_frame == 1:
+            self.c_to_f()
+        else:
+            self.f_to_c()
+
         for frame in self.frames.values():
             frame.reset()
             frame.grid_remove()
-        frame = self.frames[self.selected_value.get()]
+        frame = self.frames[active_frame]
         frame.reset()
         frame.tkraise()
         frame.grid()
